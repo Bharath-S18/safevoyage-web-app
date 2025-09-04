@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Star, Shield, ArrowRight } from 'lucide-react';
+import { MapPin, Star, Shield, ArrowRight, Users } from 'lucide-react';
 
 const PlaceCard = ({ place, onSelect }) => {
   const getSafetyScoreColor = (score) => {
@@ -11,7 +11,10 @@ const PlaceCard = ({ place, onSelect }) => {
   const averageRating = place.reviews.reduce((acc, review) => acc + review.rating, 0) / place.reviews.length;
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group cursor-pointer">
+    <div 
+      onClick={onSelect}
+      className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group cursor-pointer"
+    >
       <div className="relative overflow-hidden">
         <img
           src={place.mainImage}
@@ -19,7 +22,7 @@ const PlaceCard = ({ place, onSelect }) => {
           className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute top-4 right-4">
-          <div className={`px-3 py-1 rounded-full text-sm font-bold ${getSafetyScoreColor(place.aiSafetyScore)}`}>
+          <div className={`px-3 py-1 rounded-full text-sm font-bold backdrop-blur-sm ${getSafetyScoreColor(place.aiSafetyScore)}`}>
             <div className="flex items-center space-x-1">
               <Shield className="h-4 w-4" />
               <span>{place.aiSafetyScore}/10</span>
@@ -27,7 +30,7 @@ const PlaceCard = ({ place, onSelect }) => {
           </div>
         </div>
         <div className="absolute top-4 left-4">
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm ${
             place.category === 'local' ? 'bg-blue-600' : 'bg-purple-600'
           }`}>
             {place.category === 'local' ? 'Local Travel' : 'International'}
@@ -56,16 +59,20 @@ const PlaceCard = ({ place, onSelect }) => {
         </p>
 
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
-            {place.reviews.length} reviews
+          <div className="flex items-center space-x-4 text-sm text-gray-500">
+            <div className="flex items-center space-x-1">
+              <Users className="h-4 w-4" />
+              <span>{place.reviews.length} reviews</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Star className="h-4 w-4 text-yellow-500 fill-current" />
+              <span>{averageRating.toFixed(1)}</span>
+            </div>
           </div>
-          <button
-            onClick={onSelect}
-            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-sm font-semibold"
-          >
+          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg group-hover:shadow-lg group-hover:scale-105 transition-all duration-300 text-sm font-semibold">
             Explore
             <ArrowRight className="ml-2 h-4 w-4" />
-          </button>
+          </div>
         </div>
       </div>
     </div>

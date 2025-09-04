@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, MapPin, Star, Shield, Users, Calendar, ArrowRight, Navigation, Plane, Car, Bus, Train } from 'lucide-react';
+import { X, MapPin, Star, Shield, Users, Calendar, ArrowRight, Navigation, Info, Award } from 'lucide-react';
 import ImageGallery from './ImageGallery';
 import TransportOptions from './TransportOptions';
 import ReviewsSection from './ReviewsSection';
@@ -25,12 +25,12 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl max-w-7xl w-full max-h-[95vh] overflow-y-auto shadow-2xl">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-3xl">
+        <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 p-6 flex items-center justify-between rounded-t-3xl">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">{place.name}</h2>
+            <h2 className="text-3xl font-bold text-gray-900">{place.name}</h2>
             <div className="flex items-center space-x-2 text-gray-600 mt-1">
               <MapPin className="h-4 w-4" />
               <span>{place.region}</span>
@@ -38,9 +38,9 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-3 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <X className="h-6 w-6 text-gray-600" />
+            <X className="h-6 w-6 text-gray-600 hover:text-gray-900" />
           </button>
         </div>
 
@@ -49,19 +49,22 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
           <ImageGallery images={place.gallery} placeName={place.name} />
 
           {/* Main Info */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div className="lg:col-span-2">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">About {place.name}</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">{place.description}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">About {place.name}</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed text-lg">{place.description}</p>
 
               {/* Highlights */}
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-900 mb-3">Highlights</h4>
-                <div className="grid grid-cols-2 gap-2">
+                <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Award className="h-5 w-5 mr-2 text-yellow-500" />
+                  Key Highlights
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {place.highlights.map((highlight, index) => (
-                    <div key={index} className="flex items-center space-x-2 text-sm text-gray-600">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span>{highlight}</span>
+                    <div key={index} className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                      <div className="w-2 h-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                      <span className="text-sm font-medium text-gray-700">{highlight}</span>
                     </div>
                   ))}
                 </div>
@@ -69,22 +72,23 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
             </div>
 
             {/* Safety Score & Stats */}
-            <div className="space-y-6">
+            <div className="space-y-6 lg:pl-4">
               {/* AI Safety Score - Marked for future dynamic updates */}
-              <div className={`border-2 rounded-xl p-6 ${getSafetyScoreColor(place.aiSafetyScore)}`}>
+              <div className={`border-2 rounded-2xl p-6 ${getSafetyScoreColor(place.aiSafetyScore)}`}>
                 <div className="flex items-center space-x-3 mb-3">
                   <Shield className="h-6 w-6" />
                   <h4 className="font-bold text-lg">AI Safety Score</h4>
                 </div>
                 <div className="text-3xl font-bold mb-2">{place.aiSafetyScore}/10</div>
-                <p className="text-sm opacity-80">
-                  Based on safety, affordability, and tourist convenience factors
+                <p className="text-sm opacity-90 leading-relaxed">
+                  AI-powered analysis based on safety incidents, tourist feedback, local infrastructure, 
+                  and real-time monitoring data
                 </p>
                 {/* TODO: Connect to real-time AI safety scoring API */}
               </div>
 
               {/* Rating */}
-              <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center space-x-3 mb-3">
                   <Star className="h-6 w-6 text-yellow-500" />
                   <h4 className="font-bold text-lg text-gray-900">Tourist Rating</h4>
@@ -106,7 +110,7 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
               </div>
 
               {/* Category Badge */}
-              <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center space-x-3">
                   <Navigation className="h-6 w-6 text-blue-600" />
                   <div>
@@ -121,6 +125,32 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
                   </div>
                 </div>
               </div>
+
+              {/* Quick Info */}
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6">
+                <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+                  <Info className="h-5 w-5 mr-2 text-blue-600" />
+                  Quick Info
+                </h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Best Time to Visit:</span>
+                    <span className="font-semibold text-gray-900">Oct - Mar</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Average Stay:</span>
+                    <span className="font-semibold text-gray-900">2-3 days</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Tourist Volume:</span>
+                    <span className="font-semibold text-gray-900">High</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Language Support:</span>
+                    <span className="font-semibold text-gray-900">Multi-lingual</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -128,30 +158,36 @@ const PlaceDetailModal = ({ place, isOpen, onClose }) => {
           <ReviewsSection reviews={place.reviews} />
 
           {/* Plan Travel Section */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mt-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Plan Your Journey</h3>
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-8 mt-8">
+            <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">Plan Your Safe Journey</h3>
             
             {!showTransport ? (
-              <div className="max-w-md mx-auto">
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
+              <div className="max-w-lg mx-auto">
+                <label className="block text-lg font-semibold text-gray-700 mb-4 text-center">
                   Enter your current location
                 </label>
-                <div className="flex space-x-3">
+                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                   <input
                     type="text"
                     value={userLocation}
                     onChange={(e) => setUserLocation(e.target.value)}
                     placeholder="e.g., Mumbai, Maharashtra"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
                   />
                   <button
                     onClick={handlePlanTravel}
                     disabled={!userLocation.trim()}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    <ArrowRight className="h-5 w-5" />
+                    <div className="flex items-center space-x-2">
+                      <span>Plan Journey</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </div>
                   </button>
                 </div>
+                <p className="text-center text-sm text-gray-500 mt-4">
+                  Get personalized transportation options with real-time safety monitoring
+                </p>
               </div>
             ) : (
               <TransportOptions

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ArrowLeft, Plane, Car, Bus, Train, Clock, DollarSign } from 'lucide-react';
+import { ArrowLeft, Plane, Car, Bus, Train, Clock, DollarSign, ArrowRight, Zap, Wallet } from 'lucide-react';
 
 const TransportOptions = ({ from, to, category, onBack }) => {
-  // Mock transport data - marked for future API integration
+  // Mock transport data - TODO: Integrate with real transportation APIs for live pricing and availability
   const getTransportOptions = () => {
     if (category === 'international') {
       return [
@@ -14,7 +14,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           duration: '8h 45m',
           cost: '$650',
           details: 'Emirates Airlines - 1 stop in Dubai',
-          color: 'from-blue-500 to-blue-600'
+          color: 'from-blue-500 to-blue-600',
+          type_label: 'Fastest',
+          savings: null
         },
         {
           id: 2,
@@ -24,7 +26,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           duration: '12h 30m',
           cost: '$420',
           details: 'Air India - 2 stops',
-          color: 'from-green-500 to-green-600'
+          color: 'from-green-500 to-green-600',
+          type_label: 'Cheapest',
+          savings: '$230'
         }
       ];
     } else {
@@ -37,7 +41,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           duration: '2h 15m',
           cost: '$120',
           details: 'IndiGo Airlines - Direct',
-          color: 'from-blue-500 to-blue-600'
+          color: 'from-blue-500 to-blue-600',
+          type_label: 'Fastest',
+          savings: null
         },
         {
           id: 2,
@@ -47,7 +53,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           duration: '8h 30m',
           cost: '$25',
           details: 'Rajdhani Express - AC 2-Tier',
-          color: 'from-green-500 to-green-600'
+          color: 'from-green-500 to-green-600',
+          type_label: 'Cheapest',
+          savings: '$95'
         },
         {
           id: 3,
@@ -57,7 +65,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           duration: '12h 45m',
           cost: '$18',
           details: 'Volvo Multi-Axle - Sleeper',
-          color: 'from-orange-500 to-orange-600'
+          color: 'from-orange-500 to-orange-600',
+          type_label: 'Budget',
+          savings: '$102'
         },
         {
           id: 4,
@@ -67,7 +77,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           duration: '10h 20m',
           cost: '$85',
           details: 'Self-drive or with driver',
-          color: 'from-purple-500 to-purple-600'
+          color: 'from-purple-500 to-purple-600',
+          type_label: 'Flexible',
+          savings: null
         }
       ];
     };
@@ -108,14 +120,35 @@ const TransportOptions = ({ from, to, category, onBack }) => {
           return (
             <div
               key={option.id}
-              className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer group"
+              className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group hover:border-blue-300 relative overflow-hidden"
             >
+              {/* Type Label */}
+              {option.type_label && (
+                <div className="absolute top-4 right-4">
+                  <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                    option.type_label === 'Fastest' ? 'bg-blue-100 text-blue-700' :
+                    option.type_label === 'Cheapest' ? 'bg-green-100 text-green-700' :
+                    option.type_label === 'Budget' ? 'bg-orange-100 text-orange-700' :
+                    'bg-purple-100 text-purple-700'
+                  }`}>
+                    {option.type_label === 'Fastest' && <Zap className="h-3 w-3 inline mr-1" />}
+                    {option.type_label === 'Cheapest' && <Wallet className="h-3 w-3 inline mr-1" />}
+                    {option.type_label}
+                  </span>
+                </div>
+              )}
+
               <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-xl bg-gradient-to-r ${option.color} group-hover:scale-110 transition-transform`}>
                   <Icon className="h-6 w-6 text-white" />
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">{option.cost}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {option.cost}
+                    {option.savings && (
+                      <div className="text-sm text-green-600 font-medium">Save {option.savings}</div>
+                    )}
+                  </div>
                   <div className="text-sm text-gray-600">per person</div>
                 </div>
               </div>
@@ -128,8 +161,9 @@ const TransportOptions = ({ from, to, category, onBack }) => {
                   <Clock className="h-4 w-4" />
                   <span>{option.duration}</span>
                 </div>
-                <button className="text-blue-600 hover:text-blue-700 font-semibold">
+                <button className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-sm font-semibold">
                   Book Now
+                  <ArrowRight className="ml-1 h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -137,11 +171,25 @@ const TransportOptions = ({ from, to, category, onBack }) => {
         })}
       </div>
 
-      {/* TODO: Integrate with real transportation APIs for live pricing and availability */}
-      <div className="mt-6 p-4 bg-blue-50 rounded-xl">
-        <p className="text-sm text-blue-800">
-          <strong>Note:</strong> Prices and timings are estimates. Actual costs may vary based on season, availability, and booking time.
-        </p>
+      {/* Additional Info */}
+      <div className="mt-6 space-y-4">
+        <div className="p-4 bg-blue-50 rounded-xl">
+          <p className="text-sm text-blue-800">
+            <strong>Note:</strong> Prices and timings are estimates. Actual costs may vary based on season, availability, and booking time.
+          </p>
+        </div>
+        
+        {/* TODO: Integrate with real transportation APIs for live pricing and availability */}
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div className="bg-green-50 rounded-lg p-4">
+            <div className="text-green-600 font-bold text-lg">Free Cancellation</div>
+            <div className="text-green-700 text-sm">Up to 24 hours before</div>
+          </div>
+          <div className="bg-purple-50 rounded-lg p-4">
+            <div className="text-purple-600 font-bold text-lg">SafeVoyage Protected</div>
+            <div className="text-purple-700 text-sm">Travel insurance included</div>
+          </div>
+        </div>
       </div>
     </div>
   );
