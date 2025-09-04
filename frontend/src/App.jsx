@@ -8,7 +8,6 @@ import DigitalID from './pages/DigitalID';
 import Alerts from './pages/Alert';
 import ExplorePlaces from './pages/ExplorePlaces';
 import PlaceDetailView from './pages/PlaceDetailView';
-import ExplorePlaces from './pages/ExplorePlaces';
 
 
 function App() {

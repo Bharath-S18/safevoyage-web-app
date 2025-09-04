@@ -307,7 +307,7 @@ export const mockTransportationData = {
     { type: 'flight', name: 'International Flight', time: '8-15 hours', cost: { min: 50000, max: 200000 }, icon: '✈️' }
   ]
 };
-=======
+
 // Static data for places - TODO: Connect to dynamic API for real-time data
 export const placesData = [
   {
