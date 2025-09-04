@@ -9,7 +9,7 @@ import Alerts from './pages/Alert';
 
 function App() {
   return (
-    <Router>
+    <Router basename='/safevoyage-web-app'>
       <div className="min-h-screen bg-gray-50 relative overflow-hidden">
         {/* Grid Background */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
