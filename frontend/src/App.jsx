@@ -6,8 +6,11 @@ import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import DigitalID from './pages/DigitalID';
 import Alerts from './pages/Alert';
+<<<<<<< HEAD
 import ExplorePlaces from './pages/ExplorePlaces';
 import PlaceDetailView from './pages/PlaceDetailView';
+=======
+>>>>>>> 2942908a565b582cefe1acef88b9ef6606c0ebf1
 
 function App() {
   return (
@@ -19,8 +22,11 @@ function App() {
         <main className="relative z-10">
           <Routes>
             <Route path="/" element={<LandingPage />} />
+<<<<<<< HEAD
             <Route path="/explore-places" element={<ExplorePlaces />} />
             <Route path="/explore-places/:id" element={<PlaceDetailView />} />
+=======
+>>>>>>> 2942908a565b582cefe1acef88b9ef6606c0ebf1
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/digital-id" element={<DigitalID />} />
             <Route path="/alerts" element={<Alerts />} />
