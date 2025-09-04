@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import DigitalID from './pages/DigitalID';
 import Alerts from './pages/Alert';
+import ExplorePlaces from './pages/ExplorePlaces';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/digital-id" element={<DigitalID />} />
             <Route path="/alerts" element={<Alerts />} />
+            <Route path="/explore" element={<ExplorePlaces />} />
           </Routes>
         </main>
         <Footer />
