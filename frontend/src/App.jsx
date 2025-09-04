@@ -7,6 +7,9 @@ import Dashboard from './pages/Dashboard';
 import DigitalID from './pages/DigitalID';
 import Alerts from './pages/Alert';
 import ExplorePlaces from './pages/ExplorePlaces';
+import PlaceDetailView from './pages/PlaceDetailView';
+import ExplorePlaces from './pages/ExplorePlaces';
+
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
         <main className="relative z-10">
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/explore-places" element={<ExplorePlaces />} />
+            <Route path="/explore-places/:id" element={<PlaceDetailView />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/digital-id" element={<DigitalID />} />
             <Route path="/alerts" element={<Alerts />} />
